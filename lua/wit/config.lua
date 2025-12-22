@@ -6,6 +6,7 @@ M.values = {
 	command_search = "WitSearch",
 	command_search_visual = "WitSearchVisual",
 	command_search_wiki = "WitSearchWiki",
+	open = '',
 }
 
 --- Sets up the config

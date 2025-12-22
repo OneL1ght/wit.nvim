@@ -18,22 +18,29 @@ M.search_engines = {
 function M.search(query)
 	query = utils.normalize_for_url(query)
 	local url = (M.search_engines[config.values.engine] or config.values.engine) .. query
-	M.open_url(url)
+	local open
+	if config.values.open:len() > 0 then
+		open = config.values.open
+	else
+		open = M.os_default_open()
+	end
+
+	vim.notify("open cmd: " .. open, vim.log.levels.INFO) -- TODO: delete this
+	os.execute(open .. '"' .. url .. '"')
 end
 
---- Opens a URL in the default browser
---- @param url string The URL to open
-function M.open_url(url)
+--- Returns default open command for current OS
+function M.os_default_open()
 	local is_windows = vim.fn.has("win32") == 1 or vim.fn.has("win64") == 1
 	local is_macos = vim.fn.has("mac") == 1
 	local is_linux = not is_windows and not is_macos
 
 	if is_windows then
-		os.execute('powershell -NoLogo -NoProfile -NonInteractive -Command Start-Process "' .. url .. '"')
+		return 'powershell -NoLogo -NoProfile -NonInteractive -Command Start-Process '
 	elseif is_macos then
-		os.execute('open "' .. url .. '"')
+		return 'open '
 	elseif is_linux then
-		os.execute('xdg-open "' .. url .. '" > /dev/null 2>&1 &')
+		return 'xdg-open '
 	else
 		vim.notify("Unsupported operating system", vim.log.levels.ERROR)
 	end
