@@ -24,8 +24,6 @@ function M.search(query)
 	else
 		open = M.os_default_open()
 	end
-
-	vim.notify("open cmd: " .. open, vim.log.levels.INFO) -- TODO: delete this
 	os.execute(open .. '"' .. url .. '"')
 end
 
