@@ -3,10 +3,10 @@ local M = {}
 --- @type Config
 M.values = {
 	engine = "google",
+	open = '',
 	command_search = "WitSearch",
 	command_search_visual = "WitSearchVisual",
 	command_search_wiki = "WitSearchWiki",
-	open = '',
 }
 
 --- Sets up the config
